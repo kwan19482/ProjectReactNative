@@ -3,29 +3,30 @@ import { useState } from 'react'
 import { StyleSheet, Text, View,SafeAreaView,TextInput,TouchableOpacity } from 'react-native'
 
 const TouchablePractice = () => {
-    const [inputName,setInputName] = useState('')
+    const [inputPS,setInputPS] = useState('')
     const [inputMail,setInputMail] = useState('')
     const checkInput1=()=>{
-        if(inputName.trim()){
-            alert('')
+        if(inputMail.trim()&&inputPS.trim()){
+            alert('Email : '+inputMail+'\n'+'Password : '+inputPS)
         }
     }
     return (
         <SafeAreaView style={styles.container}>
             
-            <TextInput
-                style={styles.textInputStyle}
-                onChangeText={(inputName)=>{setInputName(inputName)}}
-                placeholder="Enter Name"
-                
-            />
+            
              <TextInput
                 style={styles.textInputStyle}
                 onChangeText={(inputMail)=>{setInputMail(inputMail)}}
                 placeholder="Enter Email"
                 
             />
-            <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
+            <TextInput
+                style={styles.textInputStyle}
+                onChangeText={(inputPS)=>{setInputPS(inputPS)}}
+                placeholder="Enter Password"
+                
+            />
+            <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5} onPress={checkInput1}>
                 <Text style={styles.buttonTextStyle}>Submit</Text>
             </TouchableOpacity>
 
