@@ -1,13 +1,16 @@
 import React from 'react'
 import { StyleSheet, Text, View, Button } from 'react-native'
+import { Ionicons } from '@expo/vector-icons';
 
 const HomeScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
+            <Ionicons name='home' size={30} color='green'/>
             <Text>หน้าหลัก</Text>
+            
             <Button
                 title="Go to About"
-                onPress={() => navigation.navigate('About')}
+                onPress={() => navigation.navigate('About',{email:'sa.wiraphat_st@tni.ac.th'})}
             />
         </View>
     )
