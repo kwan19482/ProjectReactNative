@@ -3,14 +3,12 @@ import { View, TouchableOpacity,Image ,Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import{ createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign } from '@expo/vector-icons';
-import { createStackNavigator } from '@react-navigation/stack';
 
-const Stack = createStackNavigator();
 function HomeScreen(){
   return(
     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
     <Text>HomeScreen</Text>
-    <Button >Go to setting Tab</Button>
+    <Button onPress={}>Go to setting Tab</Button>
   </View>
   )
 }
@@ -22,19 +20,9 @@ function SettingScreen(){
   )
 }
 const Tab = createBottomTabNavigator();
-function MyStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      
-    </Stack.Navigator>
-  );
-}
 const App = () => {
   return (
     <NavigationContainer>
-      
-      
       <Tab.Navigator
         screenOptions={({route})=>({
           tabBarIcon:({focused,color})=>{
@@ -46,10 +34,8 @@ const App = () => {
             }
             return <AntDesign name={iconName} color={color} />;
           }
-          
-        }),{header : true}}
+        })}
         tabBarOptions={{activeTintColor:'red', inactiveTintColor:'gray'}}>
-        
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Setting" component={SettingScreen} />
       </Tab.Navigator>
