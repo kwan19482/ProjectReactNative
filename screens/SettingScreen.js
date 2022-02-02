@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, Button, StyleSheet } from 'react-native';
 import React from 'react';
-
+import {styles} from '../components/styles';
 const SettingScreen = ({navigation}) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -22,20 +22,3 @@ const SettingScreen = ({navigation}) => {
 };
 
 export default SettingScreen;
-const styles = StyleSheet.create({
-
-  container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-  }, textTopStyle: {
-      fontSize: 25,
-      textAlign: 'center',
-      marginBottom: 16,
-  }, textBottomStyle: {
-      fontSize: 16,
-      textAlign: 'center',
-      color: 'grey',
-  }
-
-});

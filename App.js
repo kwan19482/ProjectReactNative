@@ -1,16 +1,14 @@
 import React from 'react';
-import { View, TouchableOpacity, Image, Text, Button } from 'react-native';
+import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AntDesign } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack';
-
-import HomeScreen from './pages/HomeScreen';
-import SettingScreen from './pages/SettingScreen';
+import HomeScreen from './screens/HomeScreen';
+import SettingScreen from './screens/SettingScreen';
 import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createStackNavigator();
-function HomeScreenStack() {
+function HomeScreenStackNavigator() {
   return (
     <Stack.Navigator 
       screenOptions={{
@@ -19,11 +17,11 @@ function HomeScreenStack() {
         headerTitleStyle: { fontWeight: 'bold' },
       }}
     >
-      <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'HomeScreen' }} />
+      <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home Page' }} />
     </Stack.Navigator>
   )
 }
-function SettingScreenStack() {
+function SettingScreenStackNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -32,8 +30,8 @@ function SettingScreenStack() {
         headerTitleStyle: { fontWeight: 'bold' },
       }}
     >
-      <Stack.Screen name="Setting" component={SettingScreen} options={{ title: 'SettingScreen' }} />
-       <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'ProfileScreen' }} />
+      <Stack.Screen name="Setting" component={SettingScreen} options={{ title: 'Setting Page' }} />
+       <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profile Page' }} />
     </Stack.Navigator>
   )
 }
@@ -44,20 +42,19 @@ const App = () => {
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color }) => {
-            let iconName;
+          tabBarIcon: ({ focused}) => {
+            let image;
             if (route.name === "Home") {
-              iconName = focused ? "exclamationcircle" : "exclamationcircleo";
+              image = focused ? require('./assets/logo1.png') : require('./assets/logo2.png');
             } else if (route.name === "Setting") {
-              iconName = focused ? "closecircle" : "closecircleo";
+              image = focused ? require('./assets/logo1.png') : require('./assets/logo3.png');
             }
-            return <AntDesign name={iconName} color={color} />;
+            return <Image source={image} style={{width:25,height:25,marginLeft:5}}/>;
           }
-        })}
-        tabBarOptions={{ activeTintColor: 'red', inactiveTintColor: 'gray' }}>
+        })}>
 
-        <Tab.Screen name="Home" component={HomeScreenStack} />
-        <Tab.Screen name="Setting" component={SettingScreenStack} />
+        <Tab.Screen name="Home" component={HomeScreenStackNavigator} />
+        <Tab.Screen name="Setting" component={SettingScreenStackNavigator} />
       </Tab.Navigator>
     </NavigationContainer>
   );
