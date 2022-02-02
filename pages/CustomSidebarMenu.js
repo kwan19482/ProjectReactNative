@@ -6,7 +6,7 @@ const CustomSidebarMenu = (props) => {
     return (
         <SafeAreaView style={{flex:1}}>
             {/* Top Large Image */}
-            <Image style={styles.sideMenuProfileIcon} source={require('../assets/star_filled.png')}/>
+            <Image style={styles.sideMenuProfileIcon} source={require('../assets/react_logo.png')}/>
             <DrawerContentScrollView {...props}>
                 <DrawerItemList {...props}/>
                 <DrawerItem label="Visit Us" onPress={()=>Linking.openURL('https://it.tni.ac.th')} />
