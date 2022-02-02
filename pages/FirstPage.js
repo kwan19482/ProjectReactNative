@@ -1,7 +1,16 @@
 import React from 'react';
 import { View, Text, Button, SafeAreaView } from 'react-native';
 import {styles} from '../components/styles';
+import Logo from './Logo';
 const FirstPage = ({navigation}) => {
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle:()=><Logo/>,
+      headerRight: () => (
+        <Button onPress={() => alert('Test')} title="Register" />
+      ),
+    });
+  }, [navigation]);
   return (
     <SafeAreaView style={{flex:1}}>
         <View style={{flex:1,padding:15}}>
