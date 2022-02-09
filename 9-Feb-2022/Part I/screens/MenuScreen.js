@@ -30,7 +30,7 @@ const MenuScreen = ({navigation}) => {
         </Text>
         {/* from native base */} 
         <Content>
-          <ListItem icon style={{marginBottom:10,marginTop:10}} onPress={()=> navigation.navigate('HomeStack')}>
+          <ListItem icon style={{marginBottom:10,marginTop:10}} onPress={()=> navigation.navigate('Home')}>
             <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="airplane" />
@@ -43,17 +43,16 @@ const MenuScreen = ({navigation}) => {
               <Icon active name="arrow-forward" />
             </Right>
           </ListItem>
-          <ListItem icon style={{marginBottom:10,marginTop:10}}>
+          <ListItem icon style={{marginBottom:10,marginTop:10}} onPress={()=> navigation.navigate('Product')}>
             <Left>
               <Button style={{ backgroundColor: "#007AFF" }}>
                 <Icon active name="wifi" />
               </Button>
             </Left>
             <Body>
-              <Text>Wi-Fi</Text>
+              <Text>สินค้า</Text>
             </Body>
             <Right>
-              <Text>GeekyAnts</Text>
               <Icon active name="arrow-forward" />
             </Right>
           </ListItem>

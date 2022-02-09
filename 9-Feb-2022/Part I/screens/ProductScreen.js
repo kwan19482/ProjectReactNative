@@ -12,10 +12,33 @@ const IoniconsHeaderButton = props => (
 );
 
 const ProductScreen = ({navigation}) => {
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <HeaderButtons HeaderButtonComponent={IoniconsHeaderButton}>
+          <Item
+            title="menu"
+            iconName="menu"
+            onPress={() => navigation.openDrawer()}
+          />
+        </HeaderButtons>
+      ),
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={IoniconsHeaderButton}>
+          <Item
+            title="register"
+            iconName="person-add"
+            onPress={() => alert('ลงทะเบียน')}
+          />
+        </HeaderButtons>
+      ),  
+    });
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <Ionicons name="home-outline" size={30} color="#f4511e" />
-      <Text>หน้าหลัก</Text>
+      <Text>สินค้า</Text>
       <Button
         title="Go to Product"
         onPress={() =>

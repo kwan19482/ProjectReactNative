@@ -50,7 +50,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Drawer.Navigator
-        initialRouteName="HomeStack"
+        initialRouteName="Home"
         drawerPosition="left"
         drawerContent={(props)=><MenuScreen {...props}/>}
       >
