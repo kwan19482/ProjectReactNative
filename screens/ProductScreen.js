@@ -11,30 +11,7 @@ const IoniconsHeaderButton = props => (
   <HeaderButton IconComponent={Ionicons} iconSize={23} {...props} />
 );
 
-const HomeScreen = ({navigation}) => {
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <HeaderButtons HeaderButtonComponent={IoniconsHeaderButton}>
-          <Item
-            title="menu"
-            iconName="menu"
-            onPress={() => navigation.openDrawer()}
-          />
-        </HeaderButtons>
-      ),
-      headerRight: () => (
-        <HeaderButtons HeaderButtonComponent={IoniconsHeaderButton}>
-          <Item
-            title="register"
-            iconName="person-add"
-            onPress={() => alert('ลงทะเบียน')}
-          />
-        </HeaderButtons>
-      ),  
-    });
-  }, [navigation]);
-
+const ProductScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Ionicons name="home-outline" size={30} color="#f4511e" />
@@ -49,7 +26,7 @@ const HomeScreen = ({navigation}) => {
   );
 };
 
-export default HomeScreen;
+export default ProductScreen;
 
 const styles = StyleSheet.create({
   container: {

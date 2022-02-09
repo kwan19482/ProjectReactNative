@@ -1,27 +1,37 @@
-import React from 'react';
-import { Image } from 'react-native';
+import React from 'react'
+import { View, Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
-import SettingScreen from './screens/SettingScreen';
-import ProfileScreen from './screens/ProfileScreen';
-
+import AboutScreen from './screens/AboutScreen';
+import ProductScreen from './screens/ProductScreen';
+import DetailScreen from './screens/DetailScreen';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 const Stack = createStackNavigator();
-function HomeScreenStackNavigator() {
+const Drawer = createDrawerNavigator();
+function HomeStack() {
   return (
-    <Stack.Navigator 
+    <Stack.Navigator
+      initialRouteName="HomeScreen"
       screenOptions={{
-        headerStyle: { backgroundColor: '#FACF5A' },
-        headerTintColor: '#233142',
-        headerTitleStyle: { fontWeight: 'bold' },
-      }}
-    >
-      <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home Page' }} />
+        headerStyle: {backgroundColor: '#FACF5A'},
+        headerTintColor: '#FFFF',
+        headerTitleStyle: {fontWeight: 'bold'},
+      }}>
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{title: 'หน้าหลัก'}}
+      />
+        <Stack.Screen
+        name="Product"
+        component={ProductScreen}
+        options={{title: 'สินค้า'}}
+      />
     </Stack.Navigator>
   )
 }
-function SettingScreenStackNavigator() {
+function ProductStack() {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -30,33 +40,25 @@ function SettingScreenStackNavigator() {
         headerTitleStyle: { fontWeight: 'bold' },
       }}
     >
-      <Stack.Screen name="Setting" component={SettingScreen} options={{ title: 'Setting Page' }} />
-       <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profile Page' }} />
+      <Stack.Screen name="Product" component={ProductScreen} options={{ title: 'Setting Page' }} />
+       <Stack.Screen name="Detail" component={DetailScreen} options={{ title: 'Profile Page' }} />
     </Stack.Navigator>
   )
 }
-const Tab = createBottomTabNavigator();
-
 const App = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused}) => {
-            let image;
-            if (route.name === "Home") {
-              image = focused ? require('./assets/logo1.png') : require('./assets/logo2.png');
-            } else if (route.name === "Setting") {
-              image = focused ? require('./assets/logo1.png') : require('./assets/logo3.png');
-            }
-            return <Image source={image} style={{width:25,height:25,marginLeft:5}}/>;
-          }
-        })}>
-
-        <Tab.Screen name="Home" component={HomeScreenStackNavigator} />
-        <Tab.Screen name="Setting" component={SettingScreenStackNavigator} />
-      </Tab.Navigator>
+      <Drawer.Navigator
+        drawerContentOptions={{
+          activeTintColor: '#e91e63',
+          ItemStyle: {marginVertical: 5}
+      }}
+      >
+        <Drawer.Screen name='HomeScreen' component ={HomeStack}/>
+        <Drawer.Screen name='ProductStack' component ={ProductStack}/>
+      </Drawer.Navigator>
     </NavigationContainer>
-  );
-};
-export default App;
+  )
+}
+
+export default App
