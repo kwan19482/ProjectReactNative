@@ -7,6 +7,7 @@ import AboutScreen from './screens/AboutScreen';
 import ProductScreen from './screens/ProductScreen';
 import DetailScreen from './screens/DetailScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import MenuScreen from './screens/MenuScreen';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 function HomeStack() {
@@ -40,8 +41,8 @@ function ProductStack() {
         headerTitleStyle: { fontWeight: 'bold' },
       }}
     >
-      <Stack.Screen name="Product" component={ProductScreen} options={{ title: 'Setting Page' }} />
-       <Stack.Screen name="Detail" component={DetailScreen} options={{ title: 'Profile Page' }} />
+      <Stack.Screen name="Product" component={ProductScreen} options={{ title: 'สินค้า' }} />
+       <Stack.Screen name="Detail" component={DetailScreen} options={{ title: 'Detail' }} />
     </Stack.Navigator>
   )
 }
@@ -49,13 +50,12 @@ const App = () => {
   return (
     <NavigationContainer>
       <Drawer.Navigator
-        drawerContentOptions={{
-          activeTintColor: '#e91e63',
-          ItemStyle: {marginVertical: 5}
-      }}
+        initialRouteName="HomeStack"
+        drawerPosition="left"
+        drawerContent={(props)=><MenuScreen {...props}/>}
       >
-        <Drawer.Screen name='HomeScreen' component ={HomeStack}/>
-        <Drawer.Screen name='ProductStack' component ={ProductStack}/>
+        <Drawer.Screen name='Home' component ={HomeStack}/>
+        <Drawer.Screen name='Product' component ={ProductStack}/>
       </Drawer.Navigator>
     </NavigationContainer>
   )
