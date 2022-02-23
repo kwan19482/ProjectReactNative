@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import {StyleSheet,  View,ActivityIndicator} from 'react-native';
+import {StyleSheet,  View,ActivityIndicator,FlatList} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import {
   HeaderButtons,
@@ -8,9 +8,11 @@ import {
 } from 'react-navigation-header-buttons';
 import { Container, Header, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button,Badge } from 'native-base';
 import axios from 'axios';
-import { FlatList } from 'react-native-gesture-handler';
-import {styles} from '../components/styles'
+/* import { FlatList } from 'react-native-gesture-handler'; */
+import {styles} from '../components/styles';
+
 import { useFocusEffect } from '@react-navigation/native';
+
 const IoniconsHeaderButton = props => (
   <HeaderButton IconComponent={Ionicons} iconSize={23} {...props} />
 );
@@ -31,18 +33,22 @@ const ProductScreen = ({navigation}) => {
   }, [navigation]);
   
   const [product,setProduct] = useState([]);
-  const [loading,setLoading] = useState([false]);
-
+  const [loading,setLoading] = useState(false);
+let cancelToken;
   const getData = async ()=>{
     setLoading(true);
-      const res = await axios.get('https://api.codingthailand.com/api/course');
+      const res = await axios.get('https://api.codingthailand.com/api/course',{cancelToken:cancelToken.token});
       setProduct(res.data.data); //Update Product จากค่าที่ดึงมา
       setLoading(false);
     };
     useFocusEffect(
       //usecallback เอาไว้ optimize function for dont re-render of child component
       React.useCallback(()=>{
+        cancelToken=axios.CancelToken.source();
         getData();
+        return()=>{
+          cancelToken.cancel();
+        }
       },[])
     )
   /*useEffect(()=>{
