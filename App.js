@@ -49,6 +49,7 @@ function ProductStack() {
     >
       <Stack.Screen name="Product" component={ProductScreen} options={{ title: 'สินค้า' }} />
       <Stack.Screen name="Home" component={HomeScreen} options={{title: 'หน้าหลัก'}}/>
+      <Stack.Screen name="Detail" component={DetailScreen} options={{title: 'รายละเอียด'}}/>
     </Stack.Navigator>
   )
 }

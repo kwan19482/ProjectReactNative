@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import {StyleSheet,  View} from 'react-native';
+import {StyleSheet,  View,ActivityIndicator} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import {
   HeaderButtons,
@@ -9,6 +9,8 @@ import {
 import { Container, Header, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button,Badge } from 'native-base';
 import axios from 'axios';
 import { FlatList } from 'react-native-gesture-handler';
+import {styles} from '../components/styles'
+import { useFocusEffect } from '@react-navigation/native';
 const IoniconsHeaderButton = props => (
   <HeaderButton IconComponent={Ionicons} iconSize={23} {...props} />
 );
@@ -29,20 +31,48 @@ const ProductScreen = ({navigation}) => {
   }, [navigation]);
   
   const [product,setProduct] = useState([]);
-  useEffect(()=>{
-      const getData = async ()=>{
-          const res = await axios.get('https://api.codingthailand.com/api/course');
-          setProduct(res.data.data); //Update Product จากค่าที่ดึงมา
-        };
+  const [loading,setLoading] = useState([false]);
+
+  const getData = async ()=>{
+    setLoading(true);
+      const res = await axios.get('https://api.codingthailand.com/api/course');
+      setProduct(res.data.data); //Update Product จากค่าที่ดึงมา
+      setLoading(false);
+    };
+    useFocusEffect(
+      //usecallback เอาไว้ optimize function for dont re-render of child component
+      React.useCallback(()=>{
         getData();
-      }, []);
+      },[])
+    )
+  /*useEffect(()=>{
+        getData();
+      }, []);*/
+
+  if(loading === true){
+    return(
+      <View style={styles.container}>
+          <ActivityIndicator color='blue' size='large'/>
+      </View>
+    )
+  }
+const _onRefresh = ()=>{
+  getData();
+}
   return (
     <View >
     <FlatList
         data={product}
         keyExtractor={(item,index)=>item.id.toString()}
+        onRefresh={_onRefresh}
+        refreshing={loading} //if refreshing = true : waiting for data refresh!
         renderItem={({item})=>(
-            <ListItem thumbnail>
+            <ListItem thumbnail onPress={()=>{
+              navigation.navigate('Detail',{
+                id:item.id,
+                title:item.title //get title from backend and send to detail
+              })
+            }}>
               <Left>
                 <Thumbnail square source={{ uri: item.picture }} />
               </Left>
