@@ -12,10 +12,11 @@ import {
   Icon,
 } from "native-base";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { userStoreContext } from '../context/UserContext';
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 const ValidateSchema = Yup.object().shape({
-  name: Yup.string().required("กรุณาป้อนชื่อสกุล"),
   email: Yup.string()
     .email("รูปแบบอีเมลไม่ถูกต้อง")
     .required("กรุณากรอกอีเมลใหม่อีกครั้ง"),
@@ -23,32 +24,45 @@ const ValidateSchema = Yup.object().shape({
     .min(4, "รหัสผ่านสั้นเกินไป")
     .required("กรุณาป้อนรหัสผ่าน"),
 });
-const RegisterScreen = ({ navigation }) => {
+
+const LoginScreen = ({ navigation }) => {
+  const userStore=React.useContext(userStoreContext);
+
   return (
     <Container>
       <Content padder>
         <Formik
           //set Default value == in backend
           initialValues={{
-            name: "",
             email: "",
             password: "",
           }}
           validationSchema={ValidateSchema}
-          //when register button is onClick it will be use onSubmit
+          //when Login button is onClick it will be use onSubmit
           onSubmit={async (values,{setSubmitting}) => {
             // same shape as initial values
             try{
-              const url = 'https://api.codingthailand.com/api/register';
-              const res = await axios.post(url,{
-                name : values.name,
-                email : values.email,
-                password : values.password
-              });
-              alert(res.data.message);
-              navigation.navigate('Home');
+                const url = 'https://api.codingthailand.com/api/login';
+                const res = await axios.post(url,{
+                  email : values.email,
+                  password : values.password
+                });
+                await AsyncStorage.setItem('@token',JSON.stringify(res.data));
+                const urlProfile='https://api.codingthailand.com/api/profile';
+                const resProfile=await axios.get(urlProfile,{
+                    headers:{
+                        Authorization : 'Bearer '+res.data.access_token
+                    }
+                })
+                //alert(JSON.stringify(resProfile.data.data.user));
+
+                await AsyncStorage.setItem('@profile',JSON.stringify(resProfile.data.data.user));
+                const profile = await AsyncStorage.getItem('@profile');
+                userStore.updateProfile(JSON.parse(profile));
+                alert('Login Success');
+                navigation.navigate('Home');
             }catch(error){
-              alert(error.response.data.erroes.email[0]);
+              alert(error.response.data.message);
             }finally{
               setSubmitting(false); //ให้ปุ่มกลับมาคลิกได้อีก
             }
@@ -56,24 +70,6 @@ const RegisterScreen = ({ navigation }) => {
         >
           {({ errors, touched, values, handleBlur, handleSubmit, handleChange, isSubmitting }) => (
             <Form>
-              <Item
-                fixedLabel
-                error={errors.name && touched.name ? true : false}
-              >
-                <Label>Name</Label>
-                <Input
-                  value={values.name}
-                  onChangeText={handleChange("name")}
-                  onBlur={handleBlur("name")}
-                />
-                {errors.name && touched.name && <Icon name="close-circle" />}
-                
-              </Item>
-              {errors.name && touched.name && (
-                <Item>
-                  <Label style={{ color: "red" }}>{errors.name}</Label>
-                </Item>
-              )}
               <Item
                 fixedLabel
                 last
@@ -116,7 +112,7 @@ const RegisterScreen = ({ navigation }) => {
                 <Text
                   style={{ color: "white", fontSize: 15, fontWeight: "bold" }}
                 >
-                  Register
+                  Login
                 </Text>
               </Button>
             </Form>
@@ -127,4 +123,4 @@ const RegisterScreen = ({ navigation }) => {
   );
 };
 
-export default RegisterScreen;
+export default LoginScreen;
